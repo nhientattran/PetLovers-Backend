@@ -1,0 +1,1 @@
+gunicorn 'favorite_pets:app'

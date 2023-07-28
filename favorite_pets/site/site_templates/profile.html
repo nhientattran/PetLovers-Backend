@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<!-- Flask Flash Message to User -->
+{% with messages = get_flashed_messages(with_categories = true) %}
+    {% if messages %}
+        {% for cat, msg in messages %}
+            {% if cat == 'auth-success' %}
+                <div class="container">
+                    {{ msg }}
+                    <button type="button" class="close" data-dismiss="alert" onclick="this.parentElement.style.display='none'">&times;</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<header class="hero-section">
+    <h3 class="header-text">Welcome to Coding Pets! {{ current_user.username }}</h3>
+    <main class="container pet_form">
+        <div class="row">
+            <aside class="col-12 col-md-6">
+                <h2>Create a Pet!</h2>
+                {% include 'petform.html' %}
+            </aside>
+        </div>
+    </main>
+</header>
+
+<div class="container">
+    <h3>Here are your profile details</h3>
+    <ul class="list-group">
+        <li class="list-group-item">Email: {{ current_user.email }}</li>
+        <li class="list-group-item">Token: {{ current_user.token }}</li>
+    </ul>
+    <div class="row">
+        {% for pet in pets %}
+            <div class="card" style="width: 18rem;">
+                <img src="https://image.petmd.com/files/shutterstock_423982405.jpg" class="card-img-top" alt="cute puppy paw">
+                <div class="card-body">
+                <h5 class="card-title">{{ pet.name }}</h5>
+                <p class="card-text">{{ pet.description }}</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                <li class="list-group-item">{{ pet.breed }}</li>
+                <li class="list-group-item">{{ pet.gender }}</li>
+                <li class="list-group-item">{{ pet.age }}</li>
+                </ul>
+                <div class="card-body">
+                <a href="#" class="card-link">Update Pet</a>
+                <a href="#" class="card-link">Delete Pet</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
+
+{% endblock content %}
